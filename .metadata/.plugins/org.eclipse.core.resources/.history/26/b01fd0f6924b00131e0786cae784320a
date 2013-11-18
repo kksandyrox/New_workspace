@@ -1,0 +1,11 @@
+var win = Ti.UI.createWindow();
+
+var webview = Ti.UI.createWebView({
+	url:'webview.html',
+	top:0,
+	left:0,
+	width:'100%',
+	});
+	
+win.add(webview);
+win.open();
