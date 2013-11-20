@@ -82,7 +82,7 @@ Ti.App.addEventListener('app:convert', function(e) { //receive the text
 		Ti.API.info(json.responseData.translatedText);
 		Ti.App.fireEvent("app:sendMessage2", {
 			message : '/s ' + json.responseData.translatedText
-		}); Ti.API.info('/s ' + json.responseData.translatedText);
+		});
 	};
 	
 	}else{	

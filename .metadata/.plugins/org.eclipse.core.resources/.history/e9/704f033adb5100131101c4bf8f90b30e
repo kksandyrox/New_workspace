@@ -74,7 +74,7 @@ Ti.App.addEventListener('app:convert', function(e) { //receive the text
 	var abc = e.message; //abc has the original text
 	if(abc.substr(0, 3) == '/s '){
 		var secretabc = abc.substr(3,abc.length);
-		xhr.open('GET', 'http://api.mymemory.translated.net/get?q=' + secretabc + '&langpair=' + picker.getSelectedRow(0).code + '|' +picker2.getSelectedRow(0).code );
+		xhr.open('GET', 'http://api.mymemory.translated.net/get?q=' + secretabc + '&langpair=' + picker2.getSelectedRow(0).code + '|' + picker.getSelectedRow(0).code);
 		xhr.send();
 		
 		xhr.onload = function() {
@@ -82,11 +82,11 @@ Ti.App.addEventListener('app:convert', function(e) { //receive the text
 		Ti.API.info(json.responseData.translatedText);
 		Ti.App.fireEvent("app:sendMessage2", {
 			message : '/s ' + json.responseData.translatedText
-		}); Ti.API.info('/s ' + json.responseData.translatedText);
+		});
 	};
 	
 	}else{	
-	xhr.open('GET', 'http://api.mymemory.translated.net/get?q=' + abc + '&langpair=' + picker.getSelectedRow(0).code + '|' +picker2.getSelectedRow(0).code);
+	xhr.open('GET', 'http://api.mymemory.translated.net/get?q=' + abc + '&langpair=' + picker2.getSelectedRow(0).code + '|' + picker.getSelectedRow(0).code);
 	xhr.send();
 	
 	xhr.onload = function() {

@@ -24,20 +24,19 @@ var button = Ti.UI.createButton({
 var transformPicker = Titanium.UI.create2DMatrix().scale(0.8);
 
 var picker = Ti.UI.createPicker({
-backgroundColor: '#ff9900',
-    top: 30,
-    heigth: 20,
-    left:160,
-    width: 160,
-    transform:transformPicker
+	top : 40,
+	left : 160,
+	width : 150,
+	height : 20,
+	transform:transformPicker
 });
 
 var picker2 = Ti.UI.createPicker({
     backgroundColor: '#ff9900',
-    top: 210,
+    top: 250,
     heigth: 20,
     left:160,
-    width: 160,
+    width: 130,
     transform:transformPicker
 });
 
@@ -74,7 +73,7 @@ Ti.App.addEventListener('app:convert', function(e) { //receive the text
 	var abc = e.message; //abc has the original text
 	if(abc.substr(0, 3) == '/s '){
 		var secretabc = abc.substr(3,abc.length);
-		xhr.open('GET', 'http://api.mymemory.translated.net/get?q=' + secretabc + '&langpair=' + picker.getSelectedRow(0).code + '|' +picker2.getSelectedRow(0).code );
+		xhr.open('GET', 'http://api.mymemory.translated.net/get?q=' + secretabc + '&langpair=' + picker2.getSelectedRow(0).code + '|' + picker.getSelectedRow(0).code);
 		xhr.send();
 		
 		xhr.onload = function() {
@@ -82,11 +81,11 @@ Ti.App.addEventListener('app:convert', function(e) { //receive the text
 		Ti.API.info(json.responseData.translatedText);
 		Ti.App.fireEvent("app:sendMessage2", {
 			message : '/s ' + json.responseData.translatedText
-		}); Ti.API.info('/s ' + json.responseData.translatedText);
+		});
 	};
 	
 	}else{	
-	xhr.open('GET', 'http://api.mymemory.translated.net/get?q=' + abc + '&langpair=' + picker.getSelectedRow(0).code + '|' +picker2.getSelectedRow(0).code);
+	xhr.open('GET', 'http://api.mymemory.translated.net/get?q=' + abc + '&langpair=' + picker2.getSelectedRow(0).code + '|' + picker.getSelectedRow(0).code);
 	xhr.send();
 	
 	xhr.onload = function() {
