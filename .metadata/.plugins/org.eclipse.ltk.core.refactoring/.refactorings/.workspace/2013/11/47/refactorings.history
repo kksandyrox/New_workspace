@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;ChatSocks-master&apos; to &apos;ChatSocks-master original&apos;" description="Rename resource &apos;ChatSocks-master&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/ChatSocks-master" name="ChatSocks-master original" stamp="1384777053357" updateReferences="true"/>
+</session>

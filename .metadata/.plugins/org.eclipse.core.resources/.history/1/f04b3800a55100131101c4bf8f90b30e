@@ -1,0 +1,66 @@
+var win = Ti.UI.createWindow({
+	backgroundColor:'green'
+});
+
+var webview = Ti.UI.createWebView({
+	url:'webview.html',
+	top:0,
+	left:0,
+	width:'100%',
+	height:'420'
+	});
+	
+var button = Ti.UI.createButton({
+	title: 'Send',
+	top:420,
+	height:40,
+	width:'100%'
+});
+
+var picker = Ti.UI.createPicker({ top:60, left:200, width:150 }); 
+var data = []; 
+data.push(Titanium.UI.createPickerRow({id:'0', title:'Select One', code:'en'}));
+data.push(Titanium.UI.createPickerRow({id:'1', title:'English', code:'en'})); 
+data.push(Titanium.UI.createPickerRow({id:'2', title:'French', code:'fr'})); 
+data.push(Titanium.UI.createPickerRow({id:'3', title:'German', code:'de'})); 
+data.push(Titanium.UI.createPickerRow({id:'4', title:'Portuguese', code:'pt'})); 
+picker.add(data); 
+picker.selectionIndicator = true;
+
+
+
+
+
+
+button.addEventListener('click', function(e) {
+	
+	Ti.App.fireEvent("app:sendMessage", { message: 'send this message'});
+});
+
+
+
+Ti.App.addEventListener('app:convert', function(e){
+	picker.addEventListener('change',function(e){
+  Ti.API.info("User selected : " + picker.getSelectedRow(0).title);
+  
+});
+	
+	var xhr = Titanium.Network.createHTTPClient();
+	xhr.onload = function(){
+		var json = JSON.parse(this.responseText);
+		Ti.API.info(json.responseData.translatedText);
+		Ti.App.fireEvent("app:sendMessage2", {message:json.responseData.translatedText});
+	};
+
+	var lang1 = 'en';
+	var lang2 = 'de';
+	var abc = e.message;
+	var APIkey = 'trnsl.1.1.20131016T105349Z.8fcc43e72a8c1963.6dc2586b17358e24b1969cfe38b5d3f60de61b0d';
+	xhr.open('GET','http://api.mymemory.translated.net/get?q='+abc+'&langpair=en|'+picker.getSelectedRow(0).code);
+	xhr.send();
+	});
+	
+win.add(webview);
+win.add(button);
+win.add(picker);
+win.open();

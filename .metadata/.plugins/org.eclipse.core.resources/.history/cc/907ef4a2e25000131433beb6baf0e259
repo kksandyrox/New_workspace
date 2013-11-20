@@ -1,0 +1,112 @@
+<html> 
+	<head>
+		<style type="text/css"> 
+		#input {
+			width: 200px; }
+		#messages {
+			position: fixed;
+			top: 40px;
+			bottom: 8px;
+			left: 8px;
+			right: 8px;
+			border: 1px solid #EEEEEE; 
+			padding: 8px;
+		} 
+		#users{
+     		position:fixed;
+     		top: 40px;
+			bottom: 8px;
+			left: 800px;
+			right: 350px;
+     		border: 1px solid #EEEEEE;
+     		background:'white';
+}
+		</style>
+		<title>Chat Application</title>
+		</head> 
+	<body> 
+		<div id="outPopUp"></div>
+
+
+		Your message:
+		<input type = "text" id = "input">
+		<div id = "messages" style = " width : 40%; overflow:auto;"></div>
+		<div id = "users" style = " overflow : auto;">Users</div>
+		<button type="button" onClick="Ti.App.fireEvent('app:convert', { message: inputElement.value });">Click Me!</button>
+
+
+		<script src="http://localhost:4000/socket.io/socket.io.js"></script>
+		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<script>Ti.App.addEventListener("app:sendMessage", function(e) {
+			//Ti.API.info(e.message);
+			//inputElement.value = e.message;
+			//socket.emit('clientMessage' , inputElement.value);
+			return inputElement.value;
+			inputElement.value = '';
+			
+		});</script>
+		
+		<script type="text/javascript">
+		var messagesElement = document.getElementById('messages');
+		var lastMessageElement = null;
+
+		
+		//var lastUserElement = null;
+
+		function addMessage(message){
+			var newMessageElement = document.createElement('div');
+			var newMessageText = document.createTextNode(message);
+
+			newMessageElement.appendChild(newMessageText);
+			messagesElement.insertBefore(newMessageElement , lastMessageElement);
+			lastMessageElement = newMessageElement;
+					}
+
+		var socket = io.connect('http://localhost:4000');
+			socket.on('secret', function(content){
+				addMessage(content);
+			});
+			socket.on('serverMessage2', function(content){
+				addMessage(content);
+			}); 
+			socket.on('serverMessage3', function(content){
+				addMessage(content);
+			});
+
+
+				
+				jQuery(function($){
+					socket.on('serverUserMessage' , function(data){
+					var node = $('#users');
+					var html = '';
+					for(i=0; i < data.length; i++){
+						html += data[i] + '<br/>'
+						}
+
+
+					node.html(html);
+					});
+				});
+				
+			socket.on('login' , function(){
+				var username = prompt('Enter Your Nick.');
+				socket.emit('login' , username);
+			});
+
+			var inputElement = document.getElementById('input');
+
+			inputElement.onkeydown = function(keyboardEvent){
+				if(keyboardEvent.keyCode === 13){
+					socket.emit('clientMessage' , inputElement.value);
+					inputElement.value = '';
+					
+					return false;
+				} else {
+					return true;
+				}
+			};
+		</script>
+		
+	</body>
+</html>
+
